@@ -1,0 +1,24 @@
+from django.urls import path
+from api.views import *
+
+urlpatterns = [
+    path('category/list', category_list, name='category-list'),
+    path('category/add', category_add, name='category-add'),
+    path('category/<int:category_id>/view/', category_view, name='category-view'),
+    path('category/<int:category_id>/delete/', category_delete, name='category-delete'),
+    path('category/<int:category_id>/edit/', category_edit, name='category-edit'),
+
+    path('category/<int:category_id>/products/',  CategoryWithProduct.as_view(), name='category-with-product'),
+
+    path('products/', ProductList.as_view(), name='product-list'),
+    path('products/add/', ProductAdd.as_view(), name='product-add'),
+    path('products/<int:product_id>/delete//', ProductDelete.as_view(), name='product-delete'),
+    path('products/<int:product_id>/edit/', ProductEdit.as_view(), name='product-edit'),
+
+    path('product/<int:product_id>/variants/', ProductWithVariants.as_view(), name='product-with-variants'),
+
+    path('productvariants/', ProductVariantList.as_view(), name='productvariant-list'),
+    path('productvariants/add/', ProductVariantAdd.as_view(), name='productvariant-add'),
+    path('productvariants/<int:productvariant_id>/delete//', ProductVariantDelete.as_view(), name='productvariant-delete'),
+    path('productvariants/<int:productvariant_id>/edit/', ProductVariantEdit.as_view(), name='productvariant-edit'),
+]
