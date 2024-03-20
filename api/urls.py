@@ -3,6 +3,8 @@ from api.views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    path('api_login/', api_login, name='api_login'),
+    path('logout/', logout_view, name='logout'),
     
     path('category/list', category_list, name='category-list'),
     path('category/add', category_add, name='category-add'),
@@ -13,9 +15,9 @@ urlpatterns = [
     path('category/<int:category_id>/products/',  CategoryWithProduct.as_view(), name='category-with-product'),
 
     path('product/list', ProductList.as_view(), name='product-list'),
-    path('products/add/', ProductAdd.as_view(), name='product-add'),
-    path('products/<int:product_id>/delete//', ProductDelete.as_view(), name='product-delete'),
-    path('products/<int:product_id>/edit/', ProductEdit.as_view(), name='product-edit'),
+    path('product/add/', ProductAdd.as_view(), name='product-add'),
+    path('product/<int:product_id>/delete/', ProductDelete.as_view(), name='product-delete'),
+    path('product/<int:product_id>/edit/', ProductEdit.as_view(), name='product-edit'),
 
     path('product/<int:product_id>/variants/', ProductWithVariants.as_view(), name='product-with-variants'),
 
@@ -26,10 +28,12 @@ urlpatterns = [
     
     path('personalinformation/list', personalinformation_list, name='personalinformation-list'),
     path('personalinformation/add', personalinformation_add, name='personalinformation-add'),
+    path('personalinformation/<int:personalinformation_id>/view/', personalinformation_view, name='personalinformation-view'),
+    path('personalinformation/<int:personalinformation_id>/delete/', personalinformation_delete, name='personalinformation-delete'),
+    path('personalinformation/<int:personalinformation_id>/edit/', personalinformation_edit, name='personalinformation-edit'),
     
     
     path('user/list', user_list, name='user-list'),
-    
     path('register/', user_register, name='user_register'),
     path('login/', user_login, name='user_login'),
     path('logout/', user_logout, name='user_logout'),

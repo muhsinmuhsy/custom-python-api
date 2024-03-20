@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib import messages
+from django.contrib.auth import logout
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -17,9 +20,42 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 
 
-
+@user_passes_test(lambda u: u.is_superuser, login_url='/api_login/')
 def index(request):
     return render(request, 'index.html')
+
+def api_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            messages.error(request, 'Username does not exist.')
+            return redirect('api_login')
+
+        if user.check_password(password):
+            authenticated_user = authenticate(request, username=username, password=password)
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                messages.success(request, 'Login Successfully')
+                return redirect('index')
+            else:
+                messages.error(request, 'Invalid login credentials.')
+        else:
+            messages.error(request, 'Incorrect password.')
+
+        return redirect('api_login')
+    else:
+        messages.error(request, 'Invalid user!')
+        
+    
+    return render(request, 'api_login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('index')
 
 # -------------------------------------- Category ------------------------------------- #
 
@@ -57,7 +93,7 @@ def category_add(request):
 def category_view(request, category_id):
     category = Category.objects.get(id=category_id)
     if request.method ==  'GET':
-        serializer = CategorySerializer(category)
+        serializer = CategorySerializer(category, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -65,7 +101,7 @@ def category_view(request, category_id):
 def category_delete(request, category_id):
     category = Category.objects.get(id=category_id)
     if request.method ==  'GET':
-        serializer = CategorySerializer(category)
+        serializer = CategorySerializer(category, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     elif request.method == 'DELETE':
@@ -81,7 +117,7 @@ def category_edit(request, category_id):
         return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = CategorySerializer(category)
+        serializer = CategorySerializer(category, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
         
     elif request.method == 'PATCH':
@@ -274,6 +310,47 @@ def personalinformation_add(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+   
+@api_view(['GET'])
+def personalinformation_view(request, personalinformation_id):
+    personalinformation = PersonalInformation.objects.get(id=personalinformation_id)
+    if request.method ==  'GET':
+        serializer = PersonalInformationSerializer(personalinformation)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'DELETE'])
+def personalinformation_delete(request, personalinformation_id):
+    personalinformation = PersonalInformation.objects.get(id=personalinformation_id)
+    if request.method ==  'GET':
+        serializer = PersonalInformationSerializer(personalinformation)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    elif request.method == 'DELETE':
+        personalinformation.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'PATCH'])
+def personalinformation_edit(request, personalinformation_id):
+    try:
+        personalinformation = PersonalInformation.objects.get(id=personalinformation_id)
+    except personalinformation.DoesNotExist:
+        return Response({'error': 'personalinformation not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = PersonalInformationSerializer(personalinformation)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    elif request.method == 'PATCH':
+        serializer = PersonalInformationSerializer(personalinformation, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
  # ------------------------------------ Auth ------------------------------------- #
     
 @api_view(['GET'])

@@ -1,30 +1,254 @@
 <!doctype html>
 <html lang="en">
-
+{% load static %}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>custom python api</title>
+
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
-    <h6 class="text-center">Custom <span class="text-primary">Python</span> <span class="text-danger">API</span></h6>
+    <p  class="">
+        <div class="row">
+            <div class="col">
+                Developed by: <a href="https://muhsinmuhsy.github.io/i/" target="_blank">Muhsy</a>
+            </div>
+            <div class="col text-end">
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+        
+    </p>
+    
+    <div class="d-flex justify-content-center">
+        <img src="{% static 'img/logo.png' %}" width="100px" alt="logo">
+    </div>
+    <h6 class="text-center pt-1">Custom <span class="text-primary">Python</span> <span class="text-danger">API</span></h6>
+    
     <h1 class="text-center">Documentation</h1>
     <hr>
     <div class="container">
-        <h6>Category</h6>
+        <h5>Category</h5>
+        <p>
+            "id": int
+            <br>
+            "name": char
+            <br>
+            "image": image
+        </p>
         <ul>
-            <li><span class="text-success fw-bold">GET</span> <a href="{{ request.scheme }}://{{ request.get_host }}/category/list" class="text-primary">{{ request.scheme }}://{{ request.get_host }}/category/list</a> </li>
-            <li><span class="text-success fw-bold">GET</span> <span class="text-warning fw-bold pr-2">POST</span> <a href="{{ request.scheme }}://{{ request.get_host }}/category/add" class="text-primary">{{ request.scheme }}://{{ request.get_host }}/category/add</a> </li>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all 
+                <a href="{{ request.scheme }}://{{ request.get_host }}/category/list" target="_blank" class="text-primary ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/category/list
+                </a> 
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i>
+            </li>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .id 
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/category/<span class="text-dark">int:category_id</span>/view/
+                </a> 
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i>
+            </li>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all, 
+                <span class="text-warning fw-bold pr-2">POST</span> 
+                <a href="{{ request.scheme }}://{{ request.get_host }}/category/add" target="_blank" class="text-primary ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/category/add
+                </a> 
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i>
+            </li>
+
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all, 
+                <span class="text-secondary fw-bold pr-2">PATCH</span> 
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/category/<span class="text-dark">int:category_id</span>/edit
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .id, 
+                <span class="text-danger fw-bold">DELETE</span>
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/category/<span class="text-dark">int:category_id</span>/delete/
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
         </ul>
+
+        <hr>
+
+        <h5 class="pt-3">Product</h5>
+        <p>
+            "id": int
+            <br>
+            "category": category_id
+            <br>
+            "name": char
+            <br>
+            "image": image
+            <br>
+            "description": char
+            <br>
+            "product_details": char
+            <br>
+            "hide": Boolean
+        </p>
+
+        <ul>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all 
+                <a href="{{ request.scheme }}://{{ request.get_host }}/product/list" target="_blank" class="text-primary ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/product/list
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+            
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all, 
+                <span class="text-warning fw-bold pr-2">POST</span> 
+                <a href="{{ request.scheme }}://{{ request.get_host }}/product/add" target="_blank" class="text-primary ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/product/add
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+            
+
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all, 
+                <span class="text-secondary fw-bold pr-2">PATCH</span> 
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/product/<span class="text-dark">int:product_id</span>/edit
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .id, 
+                <span class="text-danger fw-bold">DELETE</span>
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/product/<span class="text-dark">int:product_id</span>/delete/
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+        </ul>
+
+        <hr>
+
+        <h5 class="pt-3">Personal Information</h5>
+        <p>
+            "id": int
+            <br>
+            "place": char
+            <br>
+            "age": int
+        </p>
+        <ul>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all 
+                <a href="{{ request.scheme }}://{{ request.get_host }}/personalinformation/list" target="_blank" class="text-primary ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/personalinformation/list
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .id 
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/personalinformation/<span class="text-dark">int:personalinformation_id</span>/view/
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all, 
+                <span class="text-warning fw-bold pr-2">POST</span> 
+                <a href="{{ request.scheme }}://{{ request.get_host }}/personalinformation/add" target="_blank" class="text-primary ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/personalinformation/add
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .all, 
+                <span class="text-secondary fw-bold pr-2">PATCH</span> 
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/personalinformation/<span class="text-dark">int:personalinformation_id</span>/edit
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+
+            <li>
+                <span class="text-success fw-bold">GET</span>
+                .id, 
+                <span class="text-danger fw-bold">DELETE</span>
+                <a href="#" class="text-primary text-decoration-none ps-2">
+                    {{ request.scheme }}://{{ request.get_host }}/personalinformation/<span class="text-dark">int:personalinformation_id</span>/delete/
+                </a>
+                <i class="bx bxs-copy copy-icon ps-1" style="cursor: pointer;"></i> 
+            </li>
+        </ul>
+
+        
         
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    
+    <script>
+        // Add event listeners to all elements with the class "copy-icon"
+        document.querySelectorAll('.copy-icon').forEach(function(icon) {
+            icon.addEventListener('click', function() {
+                // Find the nearest <a> or <span> tag to the clicked icon
+                var urlContainer = icon.previousElementSibling;
+                
+                // Extract the URL from the inner text of the <a> or <span> tag
+                var url = urlContainer.innerText.trim();
+                
+                // Create a temporary input element
+                var input = document.createElement('input');
+                input.setAttribute('value', url);
+                document.body.appendChild(input);
+                
+                // Select the input value
+                input.select();
+                input.setSelectionRange(0, 99999); // For mobile devices
+                
+                // Copy the selected text
+                document.execCommand('copy');
+                
+                // Remove the temporary input
+                document.body.removeChild(input);
+                
+                // Optionally, you can give some feedback to the user that the URL has been copied
+                alert('URL copied to clipboard: ' + url);
+            });
+        });
+    </script>
 </body>
 
 </html>
