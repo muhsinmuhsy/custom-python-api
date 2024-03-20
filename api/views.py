@@ -1,3 +1,5 @@
+from django.shortcuts import render
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -15,6 +17,9 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 
 
+
+def index(request):
+    return render(request, 'index.html')
 
 # -------------------------------------- Category ------------------------------------- #
 
@@ -38,7 +43,7 @@ def category_add(request):
     # Handle GET requests here
     if request.method == 'GET':
         categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
+        serializer = CategorySerializer(categories, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     elif request.method == 'POST':
