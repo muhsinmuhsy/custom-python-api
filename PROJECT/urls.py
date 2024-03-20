@@ -19,9 +19,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from api.views import custom_404_view, custom_500_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('api.urls') )
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Custom error handlers
+handler404 = custom_404_view
+handler500 = custom_500_view

@@ -47,15 +47,21 @@ def api_login(request):
             messages.error(request, 'Incorrect password.')
 
         return redirect('api_login')
-    else:
-        messages.error(request, 'Invalid user!')
+    # else:
+    #     messages.error(request, 'Invalid user!')
         
-    
     return render(request, 'api_login.html')
 
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
+def custom_500_view(request):
+    return render(request, '500.html', status=500)
 
 # -------------------------------------- Category ------------------------------------- #
 
