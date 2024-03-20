@@ -5,6 +5,12 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to="category-image", null=True, blank=True)
+    
+class PersonalInformation(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    place = models.CharField(max_length=100, null=True, blank=True)
+    
+    
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)

@@ -21,4 +21,16 @@ urlpatterns = [
     path('productvariants/add/', ProductVariantAdd.as_view(), name='productvariant-add'),
     path('productvariants/<int:productvariant_id>/delete//', ProductVariantDelete.as_view(), name='productvariant-delete'),
     path('productvariants/<int:productvariant_id>/edit/', ProductVariantEdit.as_view(), name='productvariant-edit'),
+    
+    path('personalinformation/list', personalinformation_list, name='personalinformation-list'),
+    path('personalinformation/add', personalinformation_add, name='personalinformation-add'),
+    
+    
+    path('user/list', user_list, name='user-list'),
+    
+    path('register/', user_register, name='user_register'),
+    path('login/', user_login, name='user_login'),
+    path('logout/', user_logout, name='user_logout'),
+    path('change_password/', change_password, name='change_password'),
+    path('current_user/', current_user, name='current_user'),
 ]
