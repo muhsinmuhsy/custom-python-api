@@ -10,6 +10,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
+
 
 # -------------------------------------- Category ------------------------------------- #
 
@@ -232,7 +237,7 @@ class ProductVariantEdit(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-    
+ # ------------------------------------ Personal Information ------------------------------------- #   
     
 @api_view(['GET'])
 def personalinformation_list(request):
@@ -257,6 +262,7 @@ def personalinformation_add(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+ # ------------------------------------ Auth ------------------------------------- #
     
 @api_view(['GET'])
 def user_list(request):
@@ -265,7 +271,7 @@ def user_list(request):
         serializer = UserSerializer(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-from django.contrib.auth import authenticate, login
+
 
 @api_view(['POST'])
 def user_register(request):
@@ -291,7 +297,7 @@ def user_login(request):
         else:
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-from django.contrib.auth import logout
+
 
 @api_view(['POST'])
 def user_logout(request):
@@ -299,8 +305,7 @@ def user_logout(request):
         logout(request)
         return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
     
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+
 @api_view(['POST'])
 def change_password(request):
     if request.method == 'POST':
