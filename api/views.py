@@ -18,11 +18,18 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 # -------------------------------------- Category ------------------------------------- #
 
+# @api_view(['GET'])
+# def category_list(request):
+#     if request.method == 'GET':
+#         categories = Category.objects.all()
+#         serializer = CategorySerializer(categories, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
 @api_view(['GET'])
 def category_list(request):
     if request.method == 'GET':
         categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
+        serializer = CategorySerializer(categories, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
