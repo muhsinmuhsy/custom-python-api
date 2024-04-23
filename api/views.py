@@ -217,7 +217,7 @@ class CategoryWithProduct(APIView):
 #         except Category.DoesNotExist:
 #             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
 
-#         category_serializer = CategorySerializer(category)
+#         category_serializer = CategorySerializer(category, context={'request': request})
 
 #         products = Product.objects.filter(category=category)
 #         products_data = []
@@ -236,6 +236,7 @@ class CategoryWithProduct(APIView):
 #         }
 
 #         return Response(response_data, status=status.HTTP_200_OK)
+
     
 # ------------------------------------ Product and ProductVAriant ---------------------------------- #
     

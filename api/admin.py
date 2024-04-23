@@ -5,6 +5,7 @@ from api.models import *
 
 admin.site.register(Category)
 admin.site.register(Product)
+admin.site.register(Size)
 admin.site.register(ProductVariant)
 
 admin.site.register(PersonalInformation)

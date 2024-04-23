@@ -6,9 +6,16 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to="category-image", null=True, blank=True)
     
+class Size(models.Model):
+    name = models.CharField(max_length=100)
+    descreption = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='product-image', null=True, blank=True)
     description = models.CharField(max_length=100, null=True, blank=True)
@@ -19,6 +26,7 @@ class Product(models.Model):
     
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, related_name='product_variants', on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=50, null=True, blank=True)
     actual_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)

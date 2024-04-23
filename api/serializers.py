@@ -20,22 +20,41 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
+
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Size
+        fields = ['name']
+        
 class ProductVariantSerializer(serializers.ModelSerializer):
+    size = SizeSerializer()
     class Meta:
         model = ProductVariant
         fields = '__all__'
 
+    
+# class ProductVariantSerializer(serializers.ModelSerializer):
+#     size_name = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = ProductVariant
+#         fields = ['id', 'name', 'actual_price', 'discount_price', 'offer_percentage', 'availability', 'hide', 'product', 'size', 'size_name']
+
+#     def get_size_name(self, obj):
+#         return obj.size.name if obj.size else None
 
 
-class ProductVariantSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductVariant
-        fields = '__all__'
+# class ProductVariantSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ProductVariant
+#         fields = '__all__'
 
 # class ProductSerializer(serializers.ModelSerializer):
 #     product_variants = ProductVariantSerializer(many=True, required=False)
