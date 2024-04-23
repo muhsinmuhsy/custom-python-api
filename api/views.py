@@ -137,27 +137,27 @@ def category_edit(request, category_id):
 # ------------------------------------Category and Product ------------------------------------- #
 
    
-# class CategoryWithProduct(APIView):
-#     def get(self, request, category_id, format=None):
-#         try:
-#             category = Category.objects.get(id=category_id)
-#         except Category.DoesNotExist:
-#             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+class CategoryWithProduct(APIView):
+    def get(self, request, category_id, format=None):
+        try:
+            category = Category.objects.get(id=category_id)
+        except Category.DoesNotExist:
+            return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
 
-#         category_serializer = CategorySerializer(category)
-#         products = Product.objects.filter(category=category)
-#         products_serializer = ProductSerializer(products, many=True)
+        category_serializer = CategorySerializer(category)
+        products = Product.objects.filter(category=category)
+        products_serializer = ProductSerializer(products, many=True)
 
-#         product_variants = ProductVariant.objects.filter(product__in=products)
-#         variant_serializer = ProductVariantSerializer(product_variants, many=True)
+        product_variants = ProductVariant.objects.filter(product__in=products)
+        variant_serializer = ProductVariantSerializer(product_variants, many=True)
 
-#         response_data = {
-#             'category': category_serializer.data,
-#             'products': products_serializer.data,
-#             'variants': variant_serializer.data
-#         }
+        response_data = {
+            'category': category_serializer.data,
+            'products': products_serializer.data,
+            'variants': variant_serializer.data
+        }
 
-#         return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 
@@ -210,32 +210,32 @@ def category_edit(request, category_id):
 
 
 
-class CategoryWithProduct(APIView):
-    def get(self, request, category_id, format=None):
-        try:
-            category = Category.objects.get(id=category_id)
-        except Category.DoesNotExist:
-            return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+# class CategoryWithProduct(APIView):
+#     def get(self, request, category_id, format=None):
+#         try:
+#             category = Category.objects.get(id=category_id)
+#         except Category.DoesNotExist:
+#             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        category_serializer = CategorySerializer(category)
+#         category_serializer = CategorySerializer(category)
 
-        products = Product.objects.filter(category=category)
-        products_data = []
+#         products = Product.objects.filter(category=category)
+#         products_data = []
 
-        for product in products:
-            product_serializer = ProductSerializer(product)
-            variants = ProductVariant.objects.filter(product=product)
-            variant_serializer = ProductVariantSerializer(variants, many=True)
-            product_data = product_serializer.data
-            product_data['variants'] = variant_serializer.data
-            products_data.append(product_data)
+#         for product in products:
+#             product_serializer = ProductSerializer(product)
+#             variants = ProductVariant.objects.filter(product=product)
+#             variant_serializer = ProductVariantSerializer(variants, many=True)
+#             product_data = product_serializer.data
+#             product_data['variants'] = variant_serializer.data
+#             products_data.append(product_data)
             
-        response_data = {
-            'category': category_serializer.data,
-            'products': products_data,
-        }
+#         response_data = {
+#             'category': category_serializer.data,
+#             'products': products_data,
+#         }
 
-        return Response(response_data, status=status.HTTP_200_OK)
+#         return Response(response_data, status=status.HTTP_200_OK)
     
 # ------------------------------------ Product and ProductVAriant ---------------------------------- #
     
