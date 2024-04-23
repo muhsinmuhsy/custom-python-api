@@ -137,6 +137,79 @@ def category_edit(request, category_id):
 # ------------------------------------Category and Product ------------------------------------- #
 
    
+# class CategoryWithProduct(APIView):
+#     def get(self, request, category_id, format=None):
+#         try:
+#             category = Category.objects.get(id=category_id)
+#         except Category.DoesNotExist:
+#             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+
+#         category_serializer = CategorySerializer(category)
+#         products = Product.objects.filter(category=category)
+#         products_serializer = ProductSerializer(products, many=True)
+
+#         product_variants = ProductVariant.objects.filter(product__in=products)
+#         variant_serializer = ProductVariantSerializer(product_variants, many=True)
+
+#         response_data = {
+#             'category': category_serializer.data,
+#             'products': products_serializer.data,
+#             'variants': variant_serializer.data
+#         }
+
+#         return Response(response_data, status=status.HTTP_200_OK)
+
+
+
+# class CategoryWithProduct(APIView):
+#     def get(self, request, category_id, format=None):
+#         try:
+#             # Attempt to fetch the category with the given category_id
+#             category = Category.objects.get(id=category_id)
+#         except Category.DoesNotExist:
+#             # If the category does not exist, return a 404 response
+#             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+
+#         # Serialize the category object
+#         category_serializer = CategorySerializer(category)
+
+#         # Fetch all products belonging to the category
+#         products = Product.objects.filter(category=category)
+#         products_data = []
+
+#         # Iterate over each product to fetch its details and associated variants
+#         for product in products:
+#             # Serialize the product object
+#             product_serializer = ProductSerializer(product)
+            
+#             # Fetch all variants associated with the current product
+#             variants = ProductVariant.objects.filter(product=product)
+            
+#             # Serialize the variants
+#             variant_serializer = ProductVariantSerializer(variants, many=True)
+            
+#             # Create a dictionary containing product details
+#             product_data = product_serializer.data
+            
+#             # Add serialized variants to the product data under the key 'variants'
+#             product_data['variants'] = variant_serializer.data
+            
+#             # Append the product data to the list of products
+#             products_data.append(product_data)
+
+#         # Create the response data containing the serialized category and products
+#         response_data = {
+#             'category': category_serializer.data,
+#             'products': products_data,
+#         }
+
+#         # Return the response data along with a 200 OK status code
+#         return Response(response_data, status=status.HTTP_200_OK)
+
+
+
+
+
 class CategoryWithProduct(APIView):
     def get(self, request, category_id, format=None):
         try:
@@ -145,20 +218,24 @@ class CategoryWithProduct(APIView):
             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
 
         category_serializer = CategorySerializer(category)
+
         products = Product.objects.filter(category=category)
-        products_serializer = ProductSerializer(products, many=True)
+        products_data = []
 
-        product_variants = ProductVariant.objects.filter(product__in=products)
-        variant_serializer = ProductVariantSerializer(product_variants, many=True)
-
+        for product in products:
+            product_serializer = ProductSerializer(product)
+            variants = ProductVariant.objects.filter(product=product)
+            variant_serializer = ProductVariantSerializer(variants, many=True)
+            product_data = product_serializer.data
+            product_data['variants'] = variant_serializer.data
+            products_data.append(product_data)
+            
         response_data = {
             'category': category_serializer.data,
-            'products': products_serializer.data,
-            'variants': variant_serializer.data
+            'products': products_data,
         }
 
         return Response(response_data, status=status.HTTP_200_OK)
-
     
 # ------------------------------------ Product and ProductVAriant ---------------------------------- #
     
